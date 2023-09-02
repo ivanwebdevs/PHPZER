@@ -1,0 +1,8 @@
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteRule ^engine_zerif/?$ - [F,L]
+
+ErrorDocument 403 /public/index.php
+
+ReWriteRule ^(.*)$ public/$1 [l]
+</IfModule>
