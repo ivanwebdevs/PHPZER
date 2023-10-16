@@ -1,6 +1,18 @@
 <?php
+set_error_handler(function ($severity, $message, $file, $line) {
+    throw new \ErrorException($message, $severity, $severity, $file, $line);
+});
 
 
+
+ $list_function_zerif = scandir(__DIR__."/function");
+       
+        foreach ($list_function_zerif as $list_function_zerif_data){
+            if (strpos($list_function_zerif_data,".php") !== false){
+             
+                include(__DIR__."/function/$list_function_zerif_data");
+            }
+        }
 class run{
     public static function start(){
         $list_class_zerif = scandir(__DIR__."/class");
@@ -9,7 +21,7 @@ class run{
                 require_once(__DIR__."/class/$list_class_zerif_data");
             }
         }
-        
+       
         $server = $_SERVER['SERVER_NAME'];
         $uri = $_SERVER['REQUEST_URI'];
         $path_server = parse_url($uri, PHP_URL_PATH);
@@ -30,6 +42,8 @@ class run{
                 require_once(__DIR__."/control/Api.php");
                 $path_server = str_replace("/api","",$path_server);
                 Api::Route($path_server);
+                
+                
         }else{
                 require_once(__DIR__."/control/Web.php");
                 Web::Route($path_server);
@@ -37,4 +51,6 @@ class run{
         
     }   
 }
+
 run::start();
+
